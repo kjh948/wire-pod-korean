@@ -1,21 +1,28 @@
 package wirepod_vosk
 import (
-	// "encoding/json"
+	"encoding/json"
 	"log"
 	"strconv"
+	// "io/ioutil"
 	"os"
 	"fmt"
+	// "bufio"
 	"time"
 	"bytes"
 	"strings"
-	"os/exec"
+	// "io/ioutil"
 
 	vosk "github.com/alphacep/vosk-api/go"
 	"github.com/kercre123/chipper/pkg/logger"
 	"github.com/kercre123/chipper/pkg/vars"
 	sr "github.com/kercre123/chipper/pkg/wirepod/speechrequest"
 
+	"os/exec"
 
+	// "github.com/go-audio/aiff"
+	// "github.com/go-audio/audio"
+	// "github.com/go-audio/wav"
+	// "github.com/youpy/go-wav"
 )
 
 var Name string = "vosk"
@@ -64,18 +71,29 @@ func Shellout(command string) (string, string, error) {
 }
 
 func STT(req sr.SpeechRequest) (string, error) {
-	logger.Println("(Bot " + strconv.Itoa(req.BotNum) + ", Google ASR) Processing...")
+	logger.Println("(Bot " + strconv.Itoa(req.BotNum) + ", Vosk) Processing...")
 
 	curTime := time.Now()	
 	fname := fmt.Sprintf("dump/raw_%d%d%d-%d-%d-%d.pcm",curTime.Year(),curTime.Month(),curTime.Day(),curTime.Hour(),curTime.Minute(),curTime.Second())
 	fname_asr := fmt.Sprintf("dump/raw.pcm")
 
+	
 	fp,_ = os.OpenFile(fname, os.O_CREATE|os.O_WRONLY, 0644)
 	_ = os.Remove(fname_asr)
 	fp_asr,_ = os.OpenFile(fname_asr, os.O_CREATE|os.O_WRONLY, 0644)
 
+	// out, err := os.Create("dump/raw.wav")
+
+	// var numSamples uint32 = 2
+	// var numChannels uint16 = 2
+	// var bitsPerSample uint16 = 16
+
+
 	speechIsDone := false
 	sampleRate := 16000.0
+
+	// writer := wav.NewWriter(out, numSamples, numChannels, uint32(sampleRate), bitsPerSample)
+
 
 	rec, err := vosk.NewRecognizer(model, sampleRate)
 	if err != nil {
@@ -89,7 +107,7 @@ func STT(req sr.SpeechRequest) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		// rec.AcceptWaveform(chunk)
+		rec.AcceptWaveform(chunk)
 		// has to be split into 320 []byte chunks for VAD
 		req, speechIsDone = sr.DetectEndOfSpeech(req)
 
@@ -120,18 +138,82 @@ func STT(req sr.SpeechRequest) (string, error) {
 	asrOutId := strings.LastIndex(asrOut, "}")
 	asrOut = asrOut[asrOutId+2:]
 	logger.Println("google ASR output:", asrOut)
-	
+	// cmd := exec.Command("aplay", "-r","16000","/home/kjh948/workspace/wire-pod/chipper/dump/raw.pcm")
+	// cmd := exec.Command("ps")
+	// // cmd := exec.Command("/home/kjh948/workspace/wire-pod/chipper/asr.sh")
+    // stdout, err := cmd.StdoutPipe()
 
-	// var jres map[string]interface{}
-	// json.Unmarshal([]byte(rec.FinalResult()), &jres)
-	// transcribedText := jres["text"].(string)
-	// logger.Println("Bot " + strconv.Itoa(req.BotNum) + " Transcribed text: " + transcribedText)
+    // if err != nil {
+	// 	logger.Println("pipe error")
+    //     log.Fatal(err)
+    // }
+
+    // cmd.Start()
+	// logger.Println("aplay started")
+
+	// // if err := cmd.Wait(); err != nil {
+	// // 	logger.Println(err)
+	// // }
+    // buf := bufio.NewReader(stdout) 
+    // num := 0
+
+    // for {
+    //     line, _, _ := buf.ReadLine()
+    //     if num > 3 {
+    //         break
+    //     }
+    //     num += 1
+    //     fmt.Println(string(line))
+    // }
+	logger.Println("pipe end")
+
+	// out, err := exec.Command("bash", "-c", "ps cax | grep python").Output()
+	// logger.Println(string(out))
+	// grep := exec.Command("grep", "python")
+    // ps := exec.Command("ps", "ef")
+
+    // // Get ps's stdout and attach it to grep's stdin.
+    // pipe, _ := ps.StdoutPipe()
+    // defer pipe.Close()
+
+    // grep.Stdin = pipe
+
+    // // Run ps first.
+    // ps.Start()
+
+    // // Run and get the output of grep.
+    // res, _ := grep.Output()
+
+    // fmt.Println(string(res))
 
 
-	// transcribedText = asrOut
+	// // cmd := exec.Command("aplay -r 16000 ", fname)
+	// cmd := exec.Command("python3","--version")
+	// stdout, err := cmd.StdoutPipe()
 
-	logger.Println("Google ASR Bot " + strconv.Itoa(req.BotNum) + " Transcribed text: " + asrOut)
+	// if err := cmd.Start(); err != nil {
+	// 	logger.Println(err)
+	// }
+
+	// // data, err := ioutil.ReadAll(stdout)
+
+	// if err := cmd.Wait(); err != nil {
+	// 	logger.Println(err)
+	// }
+
+	// logger.Println(stdout)
 
 
-	return asrOut, nil
+	var jres map[string]interface{}
+	json.Unmarshal([]byte(rec.FinalResult()), &jres)
+	transcribedText := jres["text"].(string)
+	logger.Println("Bot " + strconv.Itoa(req.BotNum) + " Transcribed text: " + transcribedText)
+
+
+	transcribedText = asrOut
+
+	logger.Println("Google ASR Bot " + strconv.Itoa(req.BotNum) + " Transcribed text: " + transcribedText)
+
+
+	return transcribedText, nil
 }

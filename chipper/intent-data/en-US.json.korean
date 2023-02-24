@@ -145,7 +145,7 @@
 	},
 	{	
 		"name": "intent_imperative_come", 
-		"keyphrases" : ["come", "to me", "이리와", "여기와", "일루와" ]
+		"keyphrases" : ["come", "to me", "이리와", "여기와" ]
 	},
 	{	
 		"name": "intent_imperative_love",
