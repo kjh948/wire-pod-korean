@@ -4,6 +4,10 @@ This repo is to support the korean language of wire-pod.
 It's very tricky solution using google asr api (e.g. python speechrecognition package).
 It was tested under ubuntu 20.04. Raspbian on Raspberry pi will also work but not tested.
 
+
+Please check the video from https://youtu.be/cUl_Y1ydzWs
+
+
 Here is how to set up.
 
 1. install speechrecognition package from https://pypi.org/project/SpeechRecognition/
