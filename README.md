@@ -3,6 +3,7 @@
 This repo is to support the korean language of wire-pod.
 It's very tricky solution using google asr api (e.g. python speechrecognition package).
 It was tested under ubuntu 20.04. Raspbian on Raspberry pi will also work but not tested.
+
 Here is how to set up.
 
 1. install speechrecognition package from https://pypi.org/project/SpeechRecognition/
@@ -10,6 +11,7 @@ Here is how to set up.
   - "sudo pip3 install pyaudio"
   - python3 was tested but python2 will also work
   - portaudio might be requested using "sudo apt-get install portaudio19-dev"
+  - ffmpeg is also required to convert raw pcm to wave file using "sudo apt install ffmpeg"
 2. Just follow install instruction as described in wire-pod
   - "sudo STT=vosk ./setup.sh"
   - vosk should be selected as asr engine
