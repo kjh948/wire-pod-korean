@@ -3,13 +3,19 @@ package processreqs
 import (
 	"strconv"
 
-	pb "github.com/digital-dream-labs/api/go/chipperpb"
+	// pb "github.com/digital-dream-labs/api/go/chipperpb"
 	"github.com/kercre123/chipper/pkg/logger"
 	"github.com/kercre123/chipper/pkg/vars"
 	"github.com/kercre123/chipper/pkg/vtt"
 	sr "github.com/kercre123/chipper/pkg/wirepod/speechrequest"
 	ttr "github.com/kercre123/chipper/pkg/wirepod/ttr"
+
+	"fmt"
+	resty "github.com/go-resty/resty/v2"	
+	"encoding/json"
 )
+
+var clie = resty.New()
 
 func (s *Server) ProcessIntentGraph(req *vtt.IntentGraphRequest) (*vtt.IntentGraphResponse, error) {
 	sr.BotNum = sr.BotNum + 1
@@ -45,18 +51,37 @@ func (s *Server) ProcessIntentGraph(req *vtt.IntentGraphRequest) (*vtt.IntentGra
 	}
 	if !successMatched {
 		logger.Println("No intent was matched.")
-		if vars.APIConfig.Knowledge.Enable && vars.APIConfig.Knowledge.Provider == "openai" && len([]rune(transcribedText)) >= 8 {
-			apiResponse := openaiRequest(transcribedText)
-			sr.BotNum = sr.BotNum - 1
-			response := &pb.IntentGraphResponse{
-				Session:      req.Session,
-				DeviceId:     req.Device,
-				ResponseType: pb.IntentGraphMode_KNOWLEDGE_GRAPH,
-				SpokenText:   apiResponse,
-				QueryText:    transcribedText,
-				IsFinal:      true,
-			}
-			req.Stream.Send(response)
+		if vars.APIConfig.Knowledge.Enable && vars.APIConfig.Knowledge.Provider == "openai" && len([]rune(transcribedText)) >= 6 {
+			
+			
+			// apiResponse := openaiRequest(transcribedText)
+			// sr.BotNum = sr.BotNum - 1
+			// response := &pb.IntentGraphResponse{
+			// 	Session:      req.Session,
+			// 	DeviceId:     req.Device,
+			// 	ResponseType: pb.IntentGraphMode_KNOWLEDGE_GRAPH,
+			// 	SpokenText:   apiResponse,
+			// 	QueryText:    transcribedText,
+			// 	IsFinal:      true,
+			// }
+			// req.Stream.Send(response)
+
+			type Body struct {
+				Name string `json:"command"`
+				Age  string    `json:"text"`
+			 }
+			var body = Body { "chatgpt_tts_wav", transcribedText}
+			bodyData, _ := json.Marshal(body)	
+			fmt.Println(string(bodyData))
+		
+			resp, _ := clie.R().
+				EnableTrace().
+				SetHeader("Content-Type", "application/json").		
+				SetBody(string(bodyData)).
+				Post("http://127.0.0.1:8888/chat")
+		
+			fmt.Println("  Body       :\t", resp.String())
+
 			return nil, nil
 		}
 		sr.BotNum = sr.BotNum - 1

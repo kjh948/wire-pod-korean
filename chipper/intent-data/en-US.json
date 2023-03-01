@@ -5,203 +5,203 @@
 	},
 	{	
 		"name": "intent_weather_extend", 
-		"keyphrases" : ["weather", "whether", "the other", "the water", "no other", "weather forecast", "weather tomorrow", "오늘날씨", "날씨" ]
+		"keyphrases" : ["오늘날씨", "날씨" ]
 	},
 	{	
 		"name": "intent_names_ask", 
-		"keyphrases" : ["my name", "who am", "내가누구", "나누구", "내이름은", "나의이름은" ]
+		"keyphrases" : ["내가누구", "나누구", "내이름은", "나의이름은" ]
 	},
 	{	
 		"name": "intent_imperative_eyecolor",
-		"keyphrases" : ["eye color", "colo", "i call her", "i foller", "icolor", "ecce", "erior", "ichor", "agricola", "change", "oracular", "oracle"]
+		"keyphrases" : ["눈알색깔", "눈색", "눈컬러", "눈알컬러"]
 	},
 	{	
 		"name": "intent_character_age", 
-		"keyphrases" : ["older", "how old", "old are you", "old or yo", "how there you", "나이", "몇 살" ]
+		"keyphrases" : ["나이", "몇 살" ]
 	},
 	{	
 		"name": "intent_explore_start", 
-		"keyphrases" : ["start", "plor", "owing", "tailoring", "oding", "oring", "pling", "돌아다녀" ]
+		"keyphrases" : ["돌아다녀", "주변돌아다녀" ]
 	},
 	{	
 		"name": "intent_system_charger", 
-		"keyphrases" : ["charge", "home", "go to your", "church", "find your ch", "충전" ]
+		"keyphrases" : ["충전", "집으로" ]
 	},
 		{	
 		"name": "intent_system_sleep",
-		"keyphrases" : ["flee", "sleep", "sheep", "잘자", "잠" ]
+		"keyphrases" : ["잘자", "잠" ]
 	},
 	{	
 		"name": "intent_greeting_goodmorning", 
-		"keyphrases" : ["morning", "mourning", "mooning", "it bore", "afternoon", "after noon", "after whom", "굿모닝", "안녕" ]
+		"keyphrases" : ["굿모닝", "안녕" ]
 	},
 		{	
 		"name": "intent_greeting_goodnight", 
-		"keyphrases" : ["night", "might", "잘자"  ]
+		"keyphrases" : ["잘자"  ]
 	},
 		{	
 		"name": "intent_greeting_goodbye", 
-		"keyphrases" : ["good bye", "good by", "good buy", "goodbye", "바이", "잘가" ]
+		"keyphrases" : ["굿바이", "바이", "잘가" ]
 	},
 	{	
 		"name": "intent_seasonal_happynewyear",
-		"keyphrases" : ["fireworks", "new year", "happy new", "happy to", "have been", "i now you", "no year", "enee", "i never", "knew her", "hobhouse", "bennie", "불꽃" ]
+		"keyphrases" : ["불꽃" ]
 	},
 	{	
 		"name": "intent_seasonal_happyholidays", 
-		"keyphrases" : ["he holds", "christmas", "behold", "holiday", "크리스마스", "추석", "설날" ]
+		"keyphrases" : ["크리스마스", "추석", "설날" ]
 	},
 	{	
 		"name": "intent_amazon_signin", 
-		"keyphrases" : ["in intellect", "fine in electa", "in alex", "ing alex", "in an elect", "to alex", "in angelica", "up alexa" ]
+		"keyphrases" : ["알렉사" ]
 	},
 	{	
 		"name": "intent_amazon_signin", 
-		"keyphrases" : ["in outlet", "i now of elea", "out alexa", "out of ale" ]
+		"keyphrases" : []
 	},
 	{	
 		"name": "intent_imperative_forward",
-		"keyphrases" : ["forward", "for ward", "for word", "앞으로" ]
+		"keyphrases" : ["앞으로" ]
 	},
 	{	
 		"name": "intent_imperative_turnaround", 
-		"keyphrases" : ["around", "one eighty", "one ate he", "돌아" ]
+		"keyphrases" : ["돌아", "빙글" ]
 	},
 	{	
 		"name": "intent_imperative_turnleft", 
-		"keyphrases" : ["rn left", "go left", "e left", "ed left", "ernest", "왼쪽" ]
+		"keyphrases" : ["왼쪽" ]
 	},
 	{	
 		"name": "intent_imperative_turnright", 
-		"keyphrases" : ["rn right", "go right", "e right", "ernie", "credit", "ed right", "오른쪽" ]
+		"keyphrases" : ["오른쪽" ]
 	},
 	{	
 		"name": "intent_play_rollcube",
-		"keyphrases" : ["roll cu", "roll your cu", "all your cu", "roll human", "yorke", "old your he" ]
+		"keyphrases" : ["큐브" ]
 	},
 	{	
 		"name": "intent_play_popawheelie", 
-		"keyphrases" : ["pop a w", "polwhele", "olwen", "i wieland", "do a wheel", "doorstone", "thibetan", "powell", "welst", "a wheel", "willie", "a really", "o' billy" ]
+		"keyphrases" : ["필리팝" ]
 	},
 	{	
 		"name": "intent_play_fistbump", 
-		"keyphrases" : ["this pomp", "this pump", "bump", "fistb", "fistf", "this book", "pisto", "with pomp", "fison", "first", "fifth", "were fifteen", "if bump", "wisdom", "this bu", "fist bomb", "fist ball", "this ball", "system", "하이파이브" ]
+		"keyphrases" : ["하이파이브", "하이파", "하이파이" ]
 	},
 		{	
 		"name": "intent_play_blackjack", 
-		"keyphrases" : ["black", "cards", "game" ]
+		"keyphrases" : ["블랙잭" ]
 	},
 		{	
 		"name": "intent_imperative_affirmative",
-		"keyphrases" : ["yes", "correct", "sure", "응", "그래" ]
+		"keyphrases" : ["응", "그래" ]
 	},
 	{	
 		"name": "intent_imperative_negative", 
-		"keyphrases" : ["no", "dont", "싫어", "아니" ]
+		"keyphrases" : ["싫어", "아니" ]
 	},
 	{	
 		"name": "intent_photo_take_extend", 
-		"keyphrases" : ["photo", "foto", "selby", "capture", "picture", "사진" ]
+		"keyphrases" : ["사진", "카메라" ]
 	},
 	{	
 		"name": "intent_imperative_praise", 
-		"keyphrases" : ["good", "awesome", "also", "as some", "of them", "battle", "t rob", "the ro", "amazing", "woodcourt", "좋아", "잘했어" ]
+		"keyphrases" : ["좋아", "잘했어", "굿" ]
 	},
 	{	
 		"name": "intent_imperative_abuse",
-		"keyphrases" : ["bad", "that ro", "ad ro", "a root", "hate", "horrible", "나빠", "나뻐", "바보", "싫어", "바보" ]
+		"keyphrases" : ["나빠", "나뻐", "바보", "싫어", "바보" ]
 	},
 	{	
 		"name": "intent_imperative_apologize", 
-		"keyphrases" : ["sorry", "apologize", "apologise", "the tory", "nevermind", "never mind", "미안해", "쏘리", "잘못했어" ]
+		"keyphrases" : ["미안해", "쏘리", "잘못했어" ]
 	},
 	{	
 		"name": "intent_imperative_backup", 
-		"keyphrases" : ["back" ]
+		"keyphrases" : ["백업" ]
 	},
 	{	
 		"name": "intent_imperative_volumedown",
-		"keyphrases" : ["all you down", "volume down", "down volume", "down the volume", "quieter", "볼륨작게", "소리작게" ]
+		"keyphrases" : ["볼륨작게", "소리작게" ]
 	},
 	{	
 		"name": "intent_imperative_volumeup", 
-		"keyphrases" : ["all you up", "volume up", "up volume", "up the volume", "louder", "볼륨크게", "소리크게" ]
+		"keyphrases" : ["볼륨크게", "소리크게" ]
 	},
 	{	
 		"name": "intent_imperative_lookatme", 
-		"keyphrases" : ["stare", "at me", "여기봐" ]
+		"keyphrases" : ["여기봐" ]
 	},
 	{	
 		"name": "intent_imperative_volumelevel_extend",
-		"keyphrases" : ["all you", "volume", "loudness" ]
+		"keyphrases" : ["loudness" ]
 	},
 	{	
 		"name": "intent_imperative_shutup", 
-		"keyphrases" : ["shut up", "조용해" ]
+		"keyphrases" : ["조용해" ]
 	},
 	{	
 		"name": "intent_greeting_hello", 
-		"keyphrases" : ["hello", "are you", "our you", "high", "below", "little", "follow", "for you", "far you", "how about you", "안녕", "하이", "잘지냈어" ]
+		"keyphrases" : ["안녕", "하이", "잘지냈어" ]
 	},
 	{	
 		"name": "intent_imperative_come", 
-		"keyphrases" : ["come", "to me", "이리와", "여기와", "일루와" ]
+		"keyphrases" : ["이리와", "여기와", "일루와" ]
 	},
 	{	
 		"name": "intent_imperative_love",
-		"keyphrases" : ["love", "dove", "사랑" ]
+		"keyphrases" : ["사랑" ]
 	},
 	{	
 		"name": "intent_knowledge_promptquestion", 
-		"keyphrases" : ["question", "weston" ]
+		"keyphrases" : ["질문", "인공지능", "에이아이", "AI" ]
 	},
 	{	
 		"name": "intent_clock_checktimer", 
-		"keyphrases" : ["check timer", "check the timer", "check the time her", "check time her", "check time her", "check time of her", "checked the timer", "checked the time her", "checked the time of her", "지금몇시", "시간" ]
+		"keyphrases" : ["타이머체크", "타이머 몇"]
 	},
 	{	
 		"name": "intent_global_stop_extend", 
-		"keyphrases" : ["up the timer", "stop timer", "cancel the", "cancel timer", "stop clock", "stop be", "stopped t", "stopped be", "stopped at", "stop the", "멈춰", "정지", "스탑" ]
+		"keyphrases" : ["멈춰", "정지", "스탑" ]
 	},
 	{	
 		"name": "intent_clock_settimer_extend",
-		"keyphrases" : ["timer", "time for", "time of for", "time or", "time of", "타이머" ]
+		"keyphrases" : ["타이머" ]
 	},
 	{	
 		"name": "intent_clock_time", 
-		"keyphrases" : ["time is it", "the time", "what time", "clock", "지금몇시", "지금시간" ]
+		"keyphrases" : ["지금몇시", "지금시간" ]
 	},
 	{	
 		"name": "intent_imperative_quiet", 
-		"keyphrases" : ["quiet", "stop", "조용히해" ]
+		"keyphrases" : ["조용히해" ]
 	},
 	{	
 		"name": "intent_imperative_dance", 
-		"keyphrases" : ["dance", "dancing", "thence", "춤춰" ]
+		"keyphrases" : ["춤춰" ]
 	},
 	{	
 		"name": "intent_play_pickupcube",
-		"keyphrases" : ["pickup", "pick up", "bring to me", "bring me", "the beat", "boogie" ]
+		"keyphrases" : ["큐브들어" ]
 	},
 	{	
 		"name": "intent_imperative_fetchcube", 
-		"keyphrases" : ["fetch your cu", "fetch cu", "fetch the cu" ]
+		"keyphrases" : ["큐브가져와" ]
 	},
 	{	
 		"name": "intent_imperative_findcube", 
-		"keyphrases" : ["your cu", "the cu" ]
+		"keyphrases" : ["큐브찾아" ]
 	},
 	{	
 		"name": "intent_play_anytrick", 
-		"keyphrases" : ["trick", "something cool", "some thing cool" ]
+		"keyphrases" : ["재미있는" ]
 	},
 	{	
 		"name": "intent_message_recordmessage_extend",
-		"keyphrases" : ["record" ]
+		"keyphrases" : ["녹음해줘" ]
 	},
 	{	
 		"name": "intent_message_playmessage_extend", 
-		"keyphrases" : ["play message", "play method", "play a message", "play a method" ]
+		"keyphrases" : ["메시지 틀어", "메시지 틀어", "메세지 재생","메세지 틀어" ]
 	},
 		{	
 		"name": "intent_blackjack_hit", 

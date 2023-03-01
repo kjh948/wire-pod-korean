@@ -26,6 +26,7 @@ require (
 
 require (
 	github.com/currantlabs/ble v0.0.0-20171229162446-c1d21c164cf8 // indirect
+	github.com/go-resty/resty/v2 v2.7.0 // indirect
 	github.com/jamesruan/sodium v0.0.0-20181216154042-9620b83ffeae // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect

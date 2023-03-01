@@ -7,13 +7,14 @@ import (
 	"fmt"
 	"time"
 	"bytes"
-	"strings"
+	// "strings"
 	"os/exec"
 
 	vosk "github.com/alphacep/vosk-api/go"
 	"github.com/kercre123/chipper/pkg/logger"
 	"github.com/kercre123/chipper/pkg/vars"
 	sr "github.com/kercre123/chipper/pkg/wirepod/speechrequest"
+	resty "github.com/go-resty/resty/v2"
 
 
 )
@@ -24,6 +25,8 @@ var model *vosk.VoskModel
 var modelLoaded bool
 var fp *os.File
 var fp_asr *os.File
+
+var client = resty.New()
 
 func Init() error {
 	if vars.APIConfig.PastInitialSetup {
@@ -49,6 +52,8 @@ func Init() error {
 		logger.Println("VOSK initiated successfully")
 
 	}
+
+	// client = resty.New()
 	return nil
 }
 const ShellToUse = "bash"
@@ -67,8 +72,8 @@ func STT(req sr.SpeechRequest) (string, error) {
 	logger.Println("(Bot " + strconv.Itoa(req.BotNum) + ", Google ASR) Processing...")
 
 	curTime := time.Now()	
-	fname := fmt.Sprintf("dump/raw_%d%d%d-%d-%d-%d.pcm",curTime.Year(),curTime.Month(),curTime.Day(),curTime.Hour(),curTime.Minute(),curTime.Second())
-	fname_asr := fmt.Sprintf("dump/raw.pcm")
+	fname := fmt.Sprintf("dump/raw_%d%d%d-%d-%d-%d.raw",curTime.Year(),curTime.Month(),curTime.Day(),curTime.Hour(),curTime.Minute(),curTime.Second())
+	fname_asr := fmt.Sprintf("dump/raw.raw")
 
 	fp,_ = os.OpenFile(fname, os.O_CREATE|os.O_WRONLY, 0644)
 	_ = os.Remove(fname_asr)
@@ -111,15 +116,26 @@ func STT(req sr.SpeechRequest) (string, error) {
 	fp.Close()
 	fp_asr.Close()
 
+	resp, err := client.R().
+		EnableTrace().
+		SetHeader("Content-Type", "application/json").
+		SetBody(`{"command":"asr_raw", "file":"/home/kjh948/workspace/wire-pod-korean/chipper/dump/raw.raw"}`).
+		Post("http://127.0.0.1:8888/chat")
+
+	fmt.Println("  Body       :\t", resp.String())
+	asrOut := resp.String()
+	// string(resp.Body[:])
+
+
 	// out.Close()
-	execPath, err := os.Getwd()
-	execPath = fmt.Sprintf("%s/asr.sh", execPath)
-	logger.Println("Current Path",execPath)
-	asrOut, _, _ := Shellout(execPath)
+	// execPath, err := os.Getwd()
+	// execPath = fmt.Sprintf("%s/asr.sh", execPath)
+	// logger.Println("Current Path",execPath)
+	// asrOut, _, _ := Shellout(execPath)
 	
-	asrOutId := strings.LastIndex(asrOut, "}")
-	asrOut = asrOut[asrOutId+2:]
-	logger.Println("google ASR output:", asrOut)
+	// asrOutId := strings.LastIndex(asrOut, "}")
+	// asrOut = asrOut[asrOutId+2:]
+	// logger.Println("google ASR output:", asrOut)
 	
 
 	// var jres map[string]interface{}

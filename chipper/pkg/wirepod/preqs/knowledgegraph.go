@@ -8,17 +8,22 @@ import (
 	"strconv"
 	"strings"
 
-	pb "github.com/digital-dream-labs/api/go/chipperpb"
+	// pb "github.com/digital-dream-labs/api/go/chipperpb"
 	"github.com/kercre123/chipper/pkg/logger"
 	"github.com/kercre123/chipper/pkg/vars"
 	"github.com/kercre123/chipper/pkg/vtt"
 	sr "github.com/kercre123/chipper/pkg/wirepod/speechrequest"
 	"github.com/pkg/errors"
 	"github.com/soundhound/houndify-sdk-go"
+
+	"fmt"
+	resty "github.com/go-resty/resty/v2"	
 )
 
 var HKGclient houndify.Client
 var HoundEnable bool = true
+
+var client = resty.New()
 
 func ParseSpokenResponse(serverResponseJSON string) (string, error) {
 	result := make(map[string]interface{})
@@ -37,19 +42,21 @@ func ParseSpokenResponse(serverResponseJSON string) (string, error) {
 }
 
 func InitKnowledge() {
-	if vars.APIConfig.Knowledge.Enable && vars.APIConfig.Knowledge.Provider == "houndify" {
-		if vars.APIConfig.Knowledge.ID == "" || vars.APIConfig.Knowledge.Key == "" {
-			vars.APIConfig.Knowledge.Enable = false
-			logger.Println("Houndify Client Key or ID was empty, not initializing kg client")
-		} else {
-			HKGclient = houndify.Client{
-				ClientID:  vars.APIConfig.Knowledge.ID,
-				ClientKey: vars.APIConfig.Knowledge.Key,
-			}
-			HKGclient.EnableConversationState()
-			logger.Println("Initialized Houndify client")
-		}
-	}
+	vars.APIConfig.Knowledge.Enable = true
+	vars.APIConfig.Knowledge.Provider = "openai"
+	// if vars.APIConfig.Knowledge.Enable && vars.APIConfig.Knowledge.Provider == "houndify" {
+	// 	if vars.APIConfig.Knowledge.ID == "" || vars.APIConfig.Knowledge.Key == "" {
+	// 		vars.APIConfig.Knowledge.Enable = false
+	// 		logger.Println("Houndify Client Key or ID was empty, not initializing kg client")
+	// 	} else {
+	// 		HKGclient = houndify.Client{
+	// 			ClientID:  vars.APIConfig.Knowledge.ID,
+	// 			ClientKey: vars.APIConfig.Knowledge.Key,
+	// 		}
+	// 		HKGclient.EnableConversationState()
+	// 		logger.Println("Initialized Houndify client")
+	// 	}
+	// }
 }
 
 var NoResult string = "NoResultCommand"
@@ -122,23 +129,63 @@ func openaiRequest(transcribedText string) string {
 }
 
 func openaiKG(speechReq sr.SpeechRequest) string {
+	// transcribedText, err := sttHandler(speechReq)
+	// if err != nil {
+	// 	return "There was an error."
+	// }
+	// return openaiRequest(transcribedText)
+	return chatgptKG(speechReq)
+}
+
+func chatgptKG(speechReq sr.SpeechRequest) string {
 	transcribedText, err := sttHandler(speechReq)
 	if err != nil {
 		return "There was an error."
 	}
-	return openaiRequest(transcribedText)
+
+	type User struct {
+		user string
+		txt  int
+	}
+	var u = User {"Gopher", 1}
+	b, _ := json.Marshal(u)
+	fmt.Println(b)          // [123 34 78 97 109 101 34 58 34 ...]
+	fmt.Println(string(b)) // {"Name":"Gopher","Age":7}
+
+
+	type Body struct {
+		Name string `json:"command"`
+		Age  string    `json:"text"`
+	 }
+	var body = Body { "chatgpt_tts_wav", transcribedText}
+	bodyData, _ := json.Marshal(body)	
+	fmt.Println(string(bodyData))
+
+	resp, err := client.R().
+		EnableTrace().
+		SetHeader("Content-Type", "application/json").		
+		// SetBody(string(bodyData)).
+		SetBody(string(bodyData)).
+		Post("http://127.0.0.1:8888/chat")
+
+	fmt.Println("  Body       :\t", resp.String())
+	out := resp.String()
+	// resp.String()
+
+	return out
 }
 
 // Takes a SpeechRequest, figures out knowledgegraph provider, makes request, returns API response
 func KgRequest(speechReq sr.SpeechRequest) string {
-	if vars.APIConfig.Knowledge.Enable {
-		if vars.APIConfig.Knowledge.Provider == "houndify" {
-			return houndifyKG(speechReq)
-		} else if vars.APIConfig.Knowledge.Provider == "openai" {
-			return openaiKG(speechReq)
-		}
-	}
-	return "Knowledge graph is not enabled. This can be enabled in the web interface."
+	// if vars.APIConfig.Knowledge.Enable {
+	// 	if vars.APIConfig.Knowledge.Provider == "houndify" {
+	// 		return houndifyKG(speechReq)
+	// 	} else if vars.APIConfig.Knowledge.Provider == "openai" {
+	// 		return openaiKG(speechReq)
+	// 	}
+	// }
+	// return "Knowledge graph is not enabled. This can be enabled in the web interface."
+	return chatgptKG(speechReq)
 }
 
 func (s *Server) ProcessKnowledgeGraph(req *vtt.KnowledgeGraphRequest) (*vtt.KnowledgeGraphResponse, error) {
@@ -146,17 +193,18 @@ func (s *Server) ProcessKnowledgeGraph(req *vtt.KnowledgeGraphRequest) (*vtt.Kno
 	InitKnowledge()
 	speechReq := sr.ReqToSpeechRequest(req)
 	apiResponse := KgRequest(speechReq)
-	kg := pb.KnowledgeGraphResponse{
-		Session:     req.Session,
-		DeviceId:    req.Device,
-		CommandType: NoResult,
-		SpokenText:  apiResponse,
-	}
+	print(apiResponse)
+	// kg := pb.KnowledgeGraphResponse{
+	// 	Session:     req.Session,
+	// 	DeviceId:    req.Device,
+	// 	CommandType: NoResult,
+	// 	SpokenText:  apiResponse,
+	// }
 	sr.BotNum = sr.BotNum - 1
 	logger.Println("(KG) Bot " + strconv.Itoa(speechReq.BotNum) + " request served.")
-	if err := req.Stream.Send(&kg); err != nil {
-		return nil, err
-	}
+	// if err := req.Stream.Send(&kg); err != nil {
+	// 	return nil, err
+	// }
 	return nil, nil
 
 }

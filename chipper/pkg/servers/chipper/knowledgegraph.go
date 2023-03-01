@@ -32,7 +32,7 @@ func (s *Server) StreamingKnowledgeGraph(stream pb.ChipperGrpc_StreamingKnowledg
 			// Mode:
 		},
 	); err != nil {
-		logger.Println("Knowledge graph error")
+		logger.Println("Knowledge graph error2")
 		logger.Println(err)
 		return err
 	}

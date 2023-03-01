@@ -23,5 +23,9 @@
 /chipper/nvm
 /chipper/apiConfig.json
 /chipper/session-certs/00*
-/chipper/dump/*.pcm
+/chipper/dump/*.raw
 /chipper/dump/*.wav
+chipper/voice-korean/r*.wav
+chipper/voice-korean/r*.mp3
+chipper/voice-korean/.venv
+chipper/voice-korean/__pycache__
