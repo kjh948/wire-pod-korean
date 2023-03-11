@@ -16,7 +16,7 @@ import (
 	sr "github.com/kercre123/chipper/pkg/wirepod/speechrequest"
 	resty "github.com/go-resty/resty/v2"
 
-
+	"encoding/json"
 )
 
 var Name string = "vosk"
@@ -26,7 +26,8 @@ var modelLoaded bool
 var fp *os.File
 var fp_asr *os.File
 
-var client = resty.New()
+// var client = resty.New()
+var clie = resty.New()
 
 func Init() error {
 	if vars.APIConfig.PastInitialSetup {
@@ -71,13 +72,10 @@ func Shellout(command string) (string, string, error) {
 func STT(req sr.SpeechRequest) (string, error) {
 	logger.Println("(Bot " + strconv.Itoa(req.BotNum) + ", Google ASR) Processing...")
 
+	curWD, _ := os.Getwd()
 	curTime := time.Now()	
-	fname := fmt.Sprintf("dump/raw_%d%d%d-%d-%d-%d.raw",curTime.Year(),curTime.Month(),curTime.Day(),curTime.Hour(),curTime.Minute(),curTime.Second())
-	fname_asr := fmt.Sprintf("dump/raw.raw")
-
+	fname := fmt.Sprintf("%s/dump/raw_%d%d%d-%d-%d-%d.raw",curWD, curTime.Year(),curTime.Month(),curTime.Day(),curTime.Hour(),curTime.Minute(),curTime.Second())
 	fp,_ = os.OpenFile(fname, os.O_CREATE|os.O_WRONLY, 0644)
-	_ = os.Remove(fname_asr)
-	fp_asr,_ = os.OpenFile(fname_asr, os.O_CREATE|os.O_WRONLY, 0644)
 
 	speechIsDone := false
 	sampleRate := 16000.0
@@ -94,18 +92,10 @@ func STT(req sr.SpeechRequest) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		// rec.AcceptWaveform(chunk)
 		// has to be split into 320 []byte chunks for VAD
 		req, speechIsDone = sr.DetectEndOfSpeech(req)
 
-		// err = ioutil.WriteFile("raw.pcm", chunk, 0644)
 		fp.Write(chunk)
-		fp_asr.Write(chunk)
-
-		// chunkByte := int32(chunk)
-
-		// err, _ = writer.Write(chunk)
-
 
 		if speechIsDone {
 			break
@@ -114,37 +104,25 @@ func STT(req sr.SpeechRequest) (string, error) {
 	}
 
 	fp.Close()
-	fp_asr.Close()
+	// fp_asr.Close()
 
-	resp, err := client.R().
+	type Body struct {
+		Name string `json:"command"`
+		Age  string    `json:"file"`
+	 }
+	var body = Body { "asr_raw", fname}
+	bodyData, _ := json.Marshal(body)	
+	fmt.Println(string(bodyData))
+
+	resp, _ := clie.R().
 		EnableTrace().
-		SetHeader("Content-Type", "application/json").
-		SetBody(`{"command":"asr_raw", "file":"/home/kjh948/workspace/wire-pod-korean/chipper/dump/raw.raw"}`).
+		SetHeader("Content-Type", "application/json").		
+		SetBody(string(bodyData)).
 		Post("http://127.0.0.1:8888/chat")
 
 	fmt.Println("  Body       :\t", resp.String())
+
 	asrOut := resp.String()
-	// string(resp.Body[:])
-
-
-	// out.Close()
-	// execPath, err := os.Getwd()
-	// execPath = fmt.Sprintf("%s/asr.sh", execPath)
-	// logger.Println("Current Path",execPath)
-	// asrOut, _, _ := Shellout(execPath)
-	
-	// asrOutId := strings.LastIndex(asrOut, "}")
-	// asrOut = asrOut[asrOutId+2:]
-	// logger.Println("google ASR output:", asrOut)
-	
-
-	// var jres map[string]interface{}
-	// json.Unmarshal([]byte(rec.FinalResult()), &jres)
-	// transcribedText := jres["text"].(string)
-	// logger.Println("Bot " + strconv.Itoa(req.BotNum) + " Transcribed text: " + transcribedText)
-
-
-	// transcribedText = asrOut
 
 	logger.Println("Google ASR Bot " + strconv.Itoa(req.BotNum) + " Transcribed text: " + asrOut)
 

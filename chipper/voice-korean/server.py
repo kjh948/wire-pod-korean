@@ -1,8 +1,9 @@
 from bottle import route, run, template, request
-from chatgpt_wrapper import ChatGPT
+# from chatgpt_wrapper import ChatGPT
+from POE import ask
 from asr import runasr, runasr_raw
 from tts import runtts_google, runtts_espeak, runtts_vector_sdk_tts, runtts_vector_sdk_wav
-bot = ChatGPT()
+
 
 @route('/chat', method='POST')
 def task():
@@ -12,19 +13,26 @@ def task():
 
     if params["command"] == "asr":
         print("asr file name = ", params["file"])
-        response = runasr(params["file"])        
+        try:
+            response = runasr(params["file"])        
+        except:
+            response = ''
+
     elif params["command"] == "asr_raw":
         print("asr file name = ", params["file"])
-        response = runasr_raw(params["file"])        
+        try:            
+            response = runasr_raw(params["file"])        
+        except:
+            response = ''    
+        
     elif params["command"] == "chatgpt":
         print("chatgpt input = ", params["text"])
-        output = bot.ask(params["text"])
+        output = ask(params["text"])
         response = output
     elif params["command"] == "chatgpt_tts_wav":
         print("chatgpt input = ", params["text"])
-        output = bot.ask("간단하게 응답해줘 " + params["text"])
-
-        output = output.split('.')[0] + ". " + output.split('.')[1]
+        output = ask("간단하게 대답해줘. " + params["text"])
+        # output = output.split('.')[0] + ". " + output.split('.')[1]
         runtts_vector_sdk_wav(output)
         response = output        
     elif params["command"] == "tts":

@@ -53,19 +53,6 @@ func (s *Server) ProcessIntentGraph(req *vtt.IntentGraphRequest) (*vtt.IntentGra
 		logger.Println("No intent was matched.")
 		if vars.APIConfig.Knowledge.Enable && vars.APIConfig.Knowledge.Provider == "openai" && len([]rune(transcribedText)) >= 6 {
 			
-			
-			// apiResponse := openaiRequest(transcribedText)
-			// sr.BotNum = sr.BotNum - 1
-			// response := &pb.IntentGraphResponse{
-			// 	Session:      req.Session,
-			// 	DeviceId:     req.Device,
-			// 	ResponseType: pb.IntentGraphMode_KNOWLEDGE_GRAPH,
-			// 	SpokenText:   apiResponse,
-			// 	QueryText:    transcribedText,
-			// 	IsFinal:      true,
-			// }
-			// req.Stream.Send(response)
-
 			type Body struct {
 				Name string `json:"command"`
 				Age  string    `json:"text"`

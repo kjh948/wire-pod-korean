@@ -1,7 +1,7 @@
 [
 	{
 		"name" : "intent_names_username_extend", 
-		"keyphrases": ["name is", "native is", "names", "name's", "네이름", "니이름" , "너이름" ]
+		"keyphrases": ["네이름", "니이름" , "너이름" ]
 	},
 	{	
 		"name": "intent_weather_extend", 
@@ -129,7 +129,7 @@
 	},
 	{	
 		"name": "intent_imperative_lookatme", 
-		"keyphrases" : ["여기봐" ]
+		"keyphrases" : ["여기봐", "까꿍" ]
 	},
 	{	
 		"name": "intent_imperative_volumelevel_extend",

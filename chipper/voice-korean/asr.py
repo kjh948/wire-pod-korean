@@ -11,7 +11,8 @@ def runasr(filename, lang='ko-KR'):
     with sr.AudioFile(filename) as source:
         audio = r.record(source)  # read the entire audio file
 
-    return r.recognize_google(audio, language=lang).replace(" ", "")
+    result = r.recognize_google(audio, language=lang).replace(" ", "")
+    return result
 
 
 
