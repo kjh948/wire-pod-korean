@@ -583,6 +583,14 @@ function updateKGAPI() {
                 document.getElementById("houndKey").value = obj.kgApiKey;
                 document.getElementById("houndID").value = obj.kgApiID;
             }
+            else if (obj.kgProvider == "chatgpt") {
+              document.getElementById("poeKey").value = obj.kgApiKey;
+              if (obj.kgIntentGraph == "true") {
+                document.getElementById("intentyes").checked = true;
+              } else {
+                  document.getElementById("intentno").checked = true;
+              }
+          }
             checkKG();
         })
 }

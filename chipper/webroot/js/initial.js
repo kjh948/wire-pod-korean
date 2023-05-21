@@ -103,7 +103,15 @@ function initKGAPIKey() {
         key = document.getElementById("houndKey").value
         id = document.getElementById("houndID").value
         intentgraph = "false"
-    } else {
+    } else if (provider == "chatgpt") {
+        key = document.getElementById("poeKey").value
+        if (document.getElementById("intentyes").checked == true) {
+            intentgraph = "true"
+        } else {
+            intentgraph = "false"
+        }
+    }  
+    else {
         key = ""
         id = ""
         intentgraph = "false"

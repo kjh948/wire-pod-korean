@@ -1,18 +1,25 @@
 import poe
+import json
 
-with open('poe_cred.txt','r') as f:
-    cred = f.readlines()
-client = poe.Client(cred[0])
+with open('../apiConfig.json','r') as f:
+    data = json.load(f)    
 
-bot = 'chinchilla'
-client.send_chat_break(bot)
+try:
+    client = poe.Client(data['knowledge']['key'])
+    bot = 'chinchilla'
+    client.send_chat_break(bot)
+except:
+    error_response = "가이드에 맞춰 poe 키를 입력하세요"
+
 
 def ask(message):
-    for chunk in client.send_message(bot, message):
-        pass
-    print(chunk["text"])    
-    return chunk["text"]
-
+    try:
+        for chunk in client.send_message(bot, message):
+            pass
+        print(chunk["text"])    
+        return chunk["text"]
+    except:
+        return error_response
 
 if __name__ == "__main__":
     #Auth
