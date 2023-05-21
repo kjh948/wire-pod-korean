@@ -1,6 +1,6 @@
 from bottle import route, run, template, request
 # from chatgpt_wrapper import ChatGPT
-from POE import ask
+import poe_client
 from asr import runasr, runasr_raw
 from tts import runtts_google, runtts_espeak, runtts_vector_sdk_tts, runtts_vector_sdk_wav
 
@@ -27,11 +27,11 @@ def task():
         
     elif params["command"] == "chatgpt":
         print("chatgpt input = ", params["text"])
-        output = ask(params["text"])
+        output = poe_client.ask(params["text"])
         response = output
     elif params["command"] == "chatgpt_tts_wav":
         print("chatgpt input = ", params["text"])
-        output = ask("간단하게 대답해줘. " + params["text"])
+        output = poe_client.ask("간단하게 대답해줘. " + params["text"])
         # output = output.split('.')[0] + ". " + output.split('.')[1]
         runtts_vector_sdk_wav(output)
         response = output        
@@ -44,6 +44,11 @@ def task():
         runtts_vector_sdk_tts(params["text"])
         response = None
     elif params["command"] == "tts_wav":
+        print("tts input = ", params["text"])
+        runtts_vector_sdk_wav(params["text"])
+        response = None
+
+    elif params["command"] == "face":
         print("tts input = ", params["text"])
         runtts_vector_sdk_wav(params["text"])
         response = None

@@ -13,6 +13,7 @@ import (
 	"fmt"
 	resty "github.com/go-resty/resty/v2"	
 	"encoding/json"
+
 )
 
 var clie = resty.New()
@@ -50,9 +51,10 @@ func (s *Server) ProcessIntentGraph(req *vtt.IntentGraphRequest) (*vtt.IntentGra
 		return nil, nil
 	}
 	if !successMatched {
-		logger.Println("No intent was matched.")
-		if vars.APIConfig.Knowledge.Enable && vars.APIConfig.Knowledge.Provider == "openai" && len([]rune(transcribedText)) >= 6 {
-			
+		logger.Println("No intent was matched. go for chatgpt")
+		if vars.APIConfig.Knowledge.Enable && vars.APIConfig.Knowledge.Provider == "openai" && len([]rune(transcribedText)) >= 5 {
+
+			logger.Println("Calling poe")
 			type Body struct {
 				Name string `json:"command"`
 				Age  string    `json:"text"`

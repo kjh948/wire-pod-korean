@@ -17,6 +17,7 @@ import (
 	"github.com/kercre123/chipper/pkg/logger"
 	jdocsserver "github.com/kercre123/chipper/pkg/servers/jdocs"
 	"github.com/kercre123/chipper/pkg/vars"
+
 )
 
 // the big workaround
@@ -40,6 +41,7 @@ func pingJdocs(target string) {
 			serial = robot.Esn
 		}
 	}
+
 	if !matched {
 		logger.Println("jdocs pinger error: serial did not match any bot in bot json")
 		logger.Println("Error pinging jdocs")
@@ -80,6 +82,7 @@ func pingJdocs(target string) {
 	jdoc.ClientMetadata = resp.NamedJdocs[0].Doc.ClientMetadata
 	jdoc.JsonDoc = resp.NamedJdocs[0].Doc.JsonDoc
 	vars.AddJdoc("vic:"+serial, "vic.RobotSettings", jdoc)
+
 }
 
 var jdocsTargets []string
