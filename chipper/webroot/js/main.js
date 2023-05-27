@@ -517,14 +517,14 @@ function updateWeatherAPI() {
 
 function checkKG() {
     if (document.getElementById("kgProvider").value=="") {
-        document.getElementById("houndifyInput").style.display = "none";
+        document.getElementById("bardInput").style.display = "none";
         document.getElementById("openAIInput").style.display = "none";
-    } else if (document.getElementById("kgProvider").value=="houndify") {
+    } else if (document.getElementById("kgProvider").value=="google") {
         document.getElementById("openAIInput").style.display = "none";
-        document.getElementById("houndifyInput").style.display = "block";
+        document.getElementById("bardInput").style.display = "block";
     } else if (document.getElementById("kgProvider").value=="openai") {
         document.getElementById("openAIInput").style.display = "block";
-        document.getElementById("houndifyInput").style.display = "none";
+        document.getElementById("bardInput").style.display = "none";
     }
 }
 
@@ -541,10 +541,13 @@ function sendKGAPIKey() {
         } else {
             intentgraph = "false"
         }
-    } else if (provider == "houndify") {
-        key = document.getElementById("houndKey").value
-        id = document.getElementById("houndID").value
-        intentgraph = "false"
+    } else if (provider == "google") {
+        key = document.getElementById("bardCookie").value
+        if (document.getElementById("intentyes").checked == true) {
+          intentgraph = "true"
+        } else {
+          intentgraph = "false"
+        }
     } else {
         key = ""
         id = ""
@@ -557,6 +560,7 @@ function sendKGAPIKey() {
     resultP.textContent =  "Saving...";
     result.innerHTML = '';
     result.appendChild(resultP);
+
     fetch("/api/set_kg_api?" + data)
         .then(response => response.text())
         .then((response) => {
@@ -579,18 +583,14 @@ function updateKGAPI() {
                 } else {
                     document.getElementById("intentno").checked = true;
                 }
-            } else if (obj.kgProvider == "houndify") {
-                document.getElementById("houndKey").value = obj.kgApiKey;
-                document.getElementById("houndID").value = obj.kgApiID;
-            }
-            else if (obj.kgProvider == "chatgpt") {
-              document.getElementById("poeKey").value = obj.kgApiKey;
+            } else if (obj.kgProvider == "google") {
+              document.getElementById("bardCookie").value = obj.kgApiKey;
               if (obj.kgIntentGraph == "true") {
                 document.getElementById("intentyes").checked = true;
               } else {
                   document.getElementById("intentno").checked = true;
               }
-          }
+            }
             checkKG();
         })
 }

@@ -1,6 +1,7 @@
 import poe
 import json
 
+# with open('/home/pi/wire-pod/chipper/apiConfig.json','r') as f:
 with open('../apiConfig.json','r') as f:
     data = json.load(f)    
 

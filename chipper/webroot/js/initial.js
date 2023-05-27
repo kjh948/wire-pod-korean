@@ -99,19 +99,14 @@ function initKGAPIKey() {
         } else {
             intentgraph = "false"
         }
-    } else if (provider == "houndify") {
-        key = document.getElementById("houndKey").value
-        id = document.getElementById("houndID").value
-        intentgraph = "false"
-    } else if (provider == "chatgpt") {
-        key = document.getElementById("poeKey").value
+    } else if (provider == "google") {
+        key = document.getElementById("bardCookie").value
         if (document.getElementById("intentyes").checked == true) {
             intentgraph = "true"
         } else {
             intentgraph = "false"
         }
-    }  
-    else {
+    } else {
         key = ""
         id = ""
         intentgraph = "false"

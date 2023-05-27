@@ -25,6 +25,9 @@ fi
 
 source source.sh
 
+# export PYTHONPATH=/home/pi/wire-pod/chipper/voice-korean:$PYTHONPATH
+# python /home/pi/wire-pod/chipper/voice-korean/server.py &
+
 #./chipper
 if [[ ${STT_SERVICE} == "leopard" ]]; then
 	if [[ -f ./chipper ]]; then

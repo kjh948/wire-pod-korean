@@ -89,33 +89,23 @@
             <label for="kgProvider">Knowledge Graph API Provider:</label>
             <select name="kgProvider" id="kgProvider" form="kgAPIAddForm" onchange="checkKG()">
               <option value="" selected>None</option>
-              <option value="openai">OpenAI</option>
-              <option value="houndify">Houndify</option>
-              <option value="chatgpt">POE Chatgpt</option>
+              <option value="openai">Chatgpt by POE</option>
+              <option value="google">Bard by Google</option>
             </select><br>
-            <span id="houndifyInput" style="display:none">
-              <small>To use Houndify, create an account at <a href="https://www.houndify.com/signup">houndify.com</a>, create a free domain, and enter the Client ID and Key here.</small><br>
-              <label for="houndID">Knowledge Graph Client ID:</label>
-              <input type="text" name="houndID" id="houndID"><br>
-              <label for="houndKey">Knowledge Graph Client Key:</label>
-              <input type="text" name="houndKey" id="houndKey"><br>
-            </span>
-            <span id="openAIInput" style="display:none">
-              <small>To use OpenAI, create an account at <a href="https://beta.openai.com/signup">https://beta.openai.com/signup</a>, create an API key, and enter it here.</small>
-              <label for="openAIKey">Knowledge Graph API Key:</label>
-              <input type="text" name="openAIKey" id="openAIKey"><br>
-              <small>Would you like to enable the intent graph feature? This forwards the request to OpenAI if the regular intent processor didn't understand what you said.</small><br>
+            <span id="bardInput" style="display:none">
+              <small>To use Bard, create an account at <a href=https://bard.google.com/>https://bard.google.com/</a>, create a free domain, and enter the cookie here.</small><br>
+              <label for="bardCookie">Bard cookie:</label>
+              <input type="text" name="bardCookie" id="bardCookie"><br>
+              <small>Would you like to enable the intent graph feature? This forwards the request to server if the regular intent processor didn't understand what you said.</small><br>
               <label for="intentyes">Yes</label>
               <input type="radio" id="intentyes" name="intentgselect" value="yes"><br>
               <label for="intentno">No</label>
               <input type="radio" id="intentno" name="intentgselect" value="no">
             </span>
-
-            <span id="chatgptInput" style="display:none">
-              <small>To use chatgpt, create an account at <a href="https://poe.com/">https://poe.com/</a>, 계정을 생성하고 다음 URL에서 쿠키값을 확인하여 아래에 넣어주세요.</small>
-              <label for="poeKey">POE chatgpt Key:</label>
-              <input type="text" name="poeKey" id="poeKey"><br>
-              <small>Would you like to enable the intent graph feature? This forwards the request to OpenAI if the regular intent processor didn't understand what you said.</small><br>
+            <span id="openAIInput" style="display:none">
+              <label for="openAIKey">Knowledge Graph API Key:</label>
+              <input type="text" name="openAIKey" id="openAIKey"><br>
+              <small>Would you like to enable the intent graph feature? This forwards the request to server if the regular intent processor didn't understand what you said.</small><br>
               <label for="intentyes">Yes</label>
               <input type="radio" id="intentyes" name="intentgselect" value="yes"><br>
               <label for="intentno">No</label>
